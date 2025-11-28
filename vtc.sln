@@ -1,0 +1,41 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72D-47B6-A68D-7590B98EB39B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "resources", "resources", "{F676C6BE-EF99-2048-AC35-147D74A4503B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{2523CA94-33FD-C943-F732-DFA1A2EDD69B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vosk-api-0.3.50", "vosk-api-0.3.50", "{E41F1F39-56C8-47AC-49C4-D2F708B978AC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "csharp", "csharp", "{3148A64E-A2D4-4A15-C48E-B16E984D912A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoskDemo", "src\resources\API\vosk-api-0.3.50\csharp\demo\VoskDemo.csproj", "{7D365D1D-9C5D-43B6-B53C-2378DA93881F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7D365D1D-9C5D-43B6-B53C-2378DA93881F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D365D1D-9C5D-43B6-B53C-2378DA93881F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D365D1D-9C5D-43B6-B53C-2378DA93881F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D365D1D-9C5D-43B6-B53C-2378DA93881F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F676C6BE-EF99-2048-AC35-147D74A4503B} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{2523CA94-33FD-C943-F732-DFA1A2EDD69B} = {F676C6BE-EF99-2048-AC35-147D74A4503B}
+		{E41F1F39-56C8-47AC-49C4-D2F708B978AC} = {2523CA94-33FD-C943-F732-DFA1A2EDD69B}
+		{3148A64E-A2D4-4A15-C48E-B16E984D912A} = {E41F1F39-56C8-47AC-49C4-D2F708B978AC}
+		{7D365D1D-9C5D-43B6-B53C-2378DA93881F} = {3148A64E-A2D4-4A15-C48E-B16E984D912A}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {19BFEDEA-7FD5-4FDE-ABAE-28FE4D3250A5}
+	EndGlobalSection
+EndGlobal

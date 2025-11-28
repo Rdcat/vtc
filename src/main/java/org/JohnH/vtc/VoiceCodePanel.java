@@ -13,15 +13,19 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 public class VoiceCodePanel extends JPanel {
 
+
+
     int yLimit = 720;
     int xLimit = 1040;
 
     public boolean currentlyCoding = false;
+    public boolean stopButtonPressed = false;
     Transcriber transcriber = new Transcriber();
     
 
     JLabel recordLabel = new JLabel("Press to record");
     JButton recordButton = new JButton("Record");
+    JButton stopRecorButton = new JButton("Stop Recording");
     JTextArea recordedJTextArea = new JTextArea("this is the area");
 
     
@@ -39,9 +43,15 @@ public class VoiceCodePanel extends JPanel {
 
         //mouse click listener
         MouseInteract mInteract = new MouseInteract();
+
         // Set the properties of the panel
         setLayout(null);
         setPreferredSize(new Dimension(xLimit, yLimit));
+
+        stopRecorButton.setBounds(200, 420, 100, 50);
+        stopRecorButton.setOpaque(!currentlyCoding);
+        stopRecorButton.setBackground(Color.white);
+        
 
         recordButton.setText("RECORD");
         recordButton.setBounds(200, 360, 100, 50);
@@ -52,8 +62,10 @@ public class VoiceCodePanel extends JPanel {
 
         add(recordLabel);
         add(recordButton);
+        add(stopRecorButton);
 
         recordButton.addMouseListener(mInteract);
+        stopRecorButton.addMouseListener(mInteract);
 
 
     }
