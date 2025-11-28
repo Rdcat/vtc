@@ -18,8 +18,35 @@ public class Transcriber{
 
     private final int sampleRate = 16000;
     private final int bufferSize = 4096;
-    private final int setRMS = 3;
-    private final int currentRMS = 10;    
+     
+
+    //listener
+    private TranscriberListener tListener;
+
+
+
+    //setting the listener
+    public void setTranscriberListener(TranscriberListener lTranscriber){
+        this.tListener = lTranscriber;
+    }
+    private void notifyPartialResult(String text){
+        if(tListener != null){
+            tListener.onPartialResult(text);
+        }
+    }
+    private void notifyFinalResult(String text){
+        if(tListener != null){
+            tListener.onFinalResult(text);
+            System.out.println(text);
+
+            
+        }
+    }
+    private void notifyError(String text){
+            tListener.onError(text);
+        
+    }
+
     //Start Recording Function
     public void StartRecording()throws IOException, UnsupportedAudioFileException{
         //start countdown
@@ -53,38 +80,48 @@ public class Transcriber{
                     byte[] buffer = new byte[bufferSize];
                     int bytesRead = 0;
 
-                    //TODO: listens for when the there is no sound
-                    //TODO: print the initial on gotten from the audio
-                    //TODO: Use Root Mean Square to turn off when 
-                    //TODO: grab the text and have it displayed on the panel
-                    while(isRecording){
+                    
+                    while(isRecording = true){
+                    
                     bytesRead = microphone.read(buffer, 0, bufferSize);
 
-                    if(bytesRead > 0){
-                    if(recognizer.acceptWaveForm(buffer, bufferSize)){
+                    
+                    if(recognizer.acceptWaveForm(buffer, bytesRead)){
+                        System.out.println("not the true final");
+                        String result = recognizer.getResult();
+
                         System.out.println("Final: " + recognizer.getResult());
+                        notifyFinalResult(result);
+                        //isRecording = false;
                         
 
                     } else{
                         System.out.println("Partial: " + recognizer.getPartialResult());
+                        notifyPartialResult(recognizer.getPartialResult());
                         
                     }
                     
-
-                }
-                    Thread.sleep(100);
-                    UpdateText(recognizer.getPartialResult());
+                    System.out.println("is recording = " + isRecording);
+                
                     
+
+                
+                    Thread.sleep(100);
+
 
                 }
                     microphone.stop();  
-                    System.out.println("Final Result: " + recognizer.getFinalResult()); 
+                    System.out.println("Real Final Result: " + recognizer.getFinalResult()); 
+                    notifyFinalResult(recognizer.getFinalResult());
                 } 
                 catch (Exception e) {
+                    notifyError("transcription error " + e.getMessage());
                 }
 
                 
             } catch (Exception e) {
+                notifyError("initialization error " + e.getMessage());
+
             }
             
         } catch (Exception e) {
@@ -105,17 +142,11 @@ public class Transcriber{
 
 
     }
-    //writing the audio out
-    public void AudioToText(){
-        //Audio converter logic
-    }
+    
     //taking the writing and outputing it as code
     public void TextToCode(){
         //Coding Converter logic
     }
-    public void UpdateText(String currentString){
-        
-
-        
-    }
+    
+    
 }

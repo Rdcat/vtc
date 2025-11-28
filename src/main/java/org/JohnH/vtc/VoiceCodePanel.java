@@ -4,19 +4,22 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-public class VoiceCodePanel extends JPanel {
+import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
+public class VoiceCodePanel extends JPanel  implements TranscriberListener{
 
 
 
     int yLimit = 720;
     int xLimit = 1040;
+
+    //swing worker object
+    RecordWorker recordWorker;
 
     public boolean currentlyCoding = false;
     public boolean stopButtonPressed = false;
@@ -26,7 +29,9 @@ public class VoiceCodePanel extends JPanel {
     JLabel recordLabel = new JLabel("Press to record");
     JButton recordButton = new JButton("Record");
     JButton stopRecorButton = new JButton("Stop Recording");
+    JButton clearButton = new  JButton("Clear The Code");
     JTextArea recordedJTextArea = new JTextArea("this is the area");
+    JTextArea codeArea = new JTextArea("this is the code area");
 
     
     public VoiceCodePanel(){
@@ -36,6 +41,7 @@ public class VoiceCodePanel extends JPanel {
 
     
     public void  InitializeComponents(){
+        transcriber.setTranscriberListener(this);
         System.out.println("gets to Gpraphics");
 
 
@@ -43,6 +49,9 @@ public class VoiceCodePanel extends JPanel {
 
         //mouse click listener
         MouseInteract mInteract = new MouseInteract();
+        clearMouse cMouse = new clearMouse();
+
+        
 
         // Set the properties of the panel
         setLayout(null);
@@ -52,6 +61,15 @@ public class VoiceCodePanel extends JPanel {
         stopRecorButton.setOpaque(!currentlyCoding);
         stopRecorButton.setBackground(Color.white);
         
+        recordedJTextArea.setBounds(100, 500, 500, 150);
+        recordedJTextArea.setLineWrap(true);
+        add(recordedJTextArea);
+
+        codeArea.setBounds(620, 30, 200, 500);
+        codeArea.setLineWrap(true);
+        add(codeArea);
+
+        clearButton.setBounds(840, 420, 100, 50);
 
         recordButton.setText("RECORD");
         recordButton.setBounds(200, 360, 100, 50);
@@ -60,15 +78,44 @@ public class VoiceCodePanel extends JPanel {
 
         recordLabel.setBounds(310, 375, 200, 20);
 
+        add(clearButton);
         add(recordLabel);
         add(recordButton);
         add(stopRecorButton);
 
         recordButton.addMouseListener(mInteract);
         stopRecorButton.addMouseListener(mInteract);
+        clearButton.addMouseListener(cMouse);
 
 
     }
+
+    @Override
+    public void onPartialResult(String tString) {
+
+        SwingUtilities.invokeLater(() -> {
+            recordedJTextArea.setText(tString);
+        });
+
+
+
+    }
+
+    @Override
+    public void onFinalResult(String tString) {
+        SwingUtilities.invokeLater(() -> {
+            recordedJTextArea.setText(tString);
+            String extracString = tString;
+            System.out.println(extracString);
+            codeArea.append(tString + "\n");
+        });    
+    }
+
+    @Override
+    public void onError(String errorrString) {
+        SwingUtilities.invokeLater(() -> {
+            recordedJTextArea.setText(errorrString);
+        });    }
 
     private class MouseInteract extends MouseAdapter{
 
@@ -82,8 +129,8 @@ public class VoiceCodePanel extends JPanel {
                 recordButton.setBackground(Color.white);
                 currentlyCoding = !currentlyCoding;
                 recordButton.setOpaque(currentlyCoding);
+                recordWorker.cancel(true);
                 transcriber.StopRecording();
-
 
 
             }
@@ -94,9 +141,13 @@ public class VoiceCodePanel extends JPanel {
                 currentlyCoding = !currentlyCoding;
                 recordButton.setOpaque(currentlyCoding);
                 try{
-                transcriber.StartRecording();
+
+                    recordWorker = new RecordWorker();
+
+                    recordWorker.execute();
+                
                 }
-                catch(IOException | UnsupportedAudioFileException exception){
+                catch(Exception exception){
 
                 }
 
@@ -107,6 +158,28 @@ public class VoiceCodePanel extends JPanel {
 
         }
 
+    }
+    private class clearMouse extends MouseAdapter{
+        @Override
+        public void  mouseClicked(MouseEvent event){
+            codeArea.setText("Code Area"); 
+        }
+    }
+    private class RecordWorker extends SwingWorker<Void, String>{
+        
+            
+
+        @Override
+        protected Void doInBackground() throws Exception {
+            System.out.println("gangasta paradise sing it!!!!!");
+            transcriber.StartRecording();
+
+            return null;
+            
+        }
+
+        
+        
     }
 
     public void addTextSubject(String subject){
