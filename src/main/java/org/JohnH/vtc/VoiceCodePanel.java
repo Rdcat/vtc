@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
@@ -32,6 +33,7 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
     JButton clearButton = new  JButton("Clear The Code");
     JTextArea recordedJTextArea = new JTextArea("this is the area");
     JTextArea codeArea = new JTextArea("this is the code area");
+    JScrollPane codeArScrollPane;
 
     
     public VoiceCodePanel(){
@@ -53,7 +55,7 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
 
         
 
-        // Set the properties of the panel
+        // Set the properties of the panel and its objects in it
         setLayout(null);
         setPreferredSize(new Dimension(xLimit, yLimit));
 
@@ -65,9 +67,7 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
         recordedJTextArea.setLineWrap(true);
         add(recordedJTextArea);
 
-        codeArea.setBounds(620, 30, 200, 500);
-        codeArea.setLineWrap(true);
-        add(codeArea);
+        
 
         clearButton.setBounds(840, 420, 100, 50);
 
@@ -77,6 +77,19 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
         recordButton.setBackground(Color.white);
 
         recordLabel.setBounds(310, 375, 200, 20);
+
+        codeArScrollPane = new JScrollPane(codeArea, 
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        
+        codeArScrollPane.setBounds(620, 30, 200, 500);
+
+        codeArea.setLineWrap(true);
+        codeArea.setWrapStyleWord(true);
+        
+        add(codeArScrollPane);
+
+        add(codeArScrollPane);
 
         add(clearButton);
         add(recordLabel);
