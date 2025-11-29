@@ -86,11 +86,8 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
 
         codeArea.setLineWrap(true);
         codeArea.setWrapStyleWord(true);
-        
-        add(codeArScrollPane);
 
         add(codeArScrollPane);
-
         add(clearButton);
         add(recordLabel);
         add(recordButton);
@@ -120,7 +117,8 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
             recordedJTextArea.setText(tString);
             String extracString = tString;
             System.out.println(extracString);
-            codeArea.append(tString + "\n");
+            String newString = ExtractionString(tString);
+            codeArea.append(newString + "\n");
         });    
     }
 
@@ -195,8 +193,19 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
         
     }
 
-    public void addTextSubject(String subject){
-        recordedJTextArea.setText(recordedJTextArea.getText() + " " + subject);
+    public String ExtractionString(String subject){
+
+        if(subject.contains("\"text\"") && subject.contains("\"")){
+
+            int start = (subject.indexOf("\"text\"") + 7);
+            start = subject.indexOf("\"", start) + 1;
+            int end = subject.indexOf("\"", start);
+            if(start > 0 && end > start){
+            return subject.substring(start, end);
+            }
+        }
+        return  subject;
+
     }
     
 }
