@@ -1,4 +1,4 @@
 src/resources/models/vosk-model/ filter=lfs diff=lfs merge=lfs -text
-src/resources/models/vosk-model filter=lfs diff=lfs merge=lfs -text
 src/resources/models/vosk-model/** filter=lfs diff=lfs merge=lfs -text
+src/resources/models/vosk-model filter=lfs diff=lfs merge=lfs -text
 *.carpa filter=lfs diff=lfs merge=lfs -text
