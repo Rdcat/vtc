@@ -87,16 +87,16 @@ public class Transcriber{
 
                     
                     if(recognizer.acceptWaveForm(buffer, bytesRead)){
-                        System.out.println("not the true final");
+                        //System.out.println("not the true final");
                         String result = recognizer.getResult();
 
-                        System.out.println("Final: " + recognizer.getResult());
+                        //System.out.println("Final: " + recognizer.getResult());
                         notifyFinalResult(result);
                         //isRecording = false;
                         
 
                     } else{
-                        System.out.println("Partial: " + recognizer.getPartialResult());
+                        //System.out.println("Partial: " + recognizer.getPartialResult());
                         notifyPartialResult(recognizer.getPartialResult());
                         
                     }
@@ -111,7 +111,7 @@ public class Transcriber{
 
                 }
                     microphone.stop();  
-                    System.out.println("Real Final Result: " + recognizer.getFinalResult()); 
+                    //System.out.println("Real Final Result: " + recognizer.getFinalResult()); 
                     notifyFinalResult(recognizer.getFinalResult());
                 } 
                 catch (Exception e) {
@@ -137,7 +137,7 @@ public class Transcriber{
     //Stop recording Function
     public void StopRecording(){
         //stop recording logic
-        System.out.println("Stop Recording");
+        //System.out.println("Stop Recording");
         isRecording = false;
 
 

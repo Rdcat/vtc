@@ -57,7 +57,7 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
     
     public void  InitializeComponents(){
         transcriber.setTranscriberListener(this);
-        System.out.println("gets to Gpraphics");
+        //System.out.println("gets to Gpraphics");
 
 
         // TODO: implement panel functionality
@@ -208,7 +208,7 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
 
         @Override
         protected Void doInBackground() throws Exception {
-            System.out.println("gangasta paradise sing it!!!!!");
+            //System.out.println("gangasta paradise sing it!!!!!");
             transcriber.StartRecording();
 
             return null;
