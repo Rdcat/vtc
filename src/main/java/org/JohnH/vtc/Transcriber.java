@@ -149,18 +149,24 @@ public class Transcriber{
         preCodeString = preCodeString.replace("the", "");
         preCodeString = preCodeString.replace(" dot ", ".");
         preCodeString = preCodeString.replace(" that ", ".");
+        preCodeString = preCodeString.replace(" docked ", ".");
+
         preCodeString = preCodeString.replace(" thought ", ".");
-        preCodeString = preCodeString.replace("if", "if( ");
-        preCodeString = preCodeString.replace("print", "println");
+        preCodeString = preCodeString.replace(" if ", "if( ");
+        preCodeString = preCodeString.replace(" print ", "println");
         preCodeString = preCodeString.replace("while", "while( ");
         preCodeString = preCodeString.replace("equals", "=");
-        preCodeString = preCodeString.replace("end", ")");
+        preCodeString = preCodeString.replace(" end", ")");
+        preCodeString = preCodeString.replace(" and", ")");
+
         preCodeString = preCodeString.replace("start curly", "{");
         preCodeString = preCodeString.replace("end curly", "}");
         preCodeString = preCodeString.replace("start", "(");
         preCodeString = preCodeString.replace(" text ", "\" ");
-        preCodeString = preCodeString.replace("and", "&&");
-        preCodeString = preCodeString.replace("or", "||");
+        preCodeString = preCodeString.replace(" and sign", "&&");
+        preCodeString = preCodeString.replace(" or ", "||");
+
+        preCodeString = preCodeString.replace(" at ", "@");
 
 
         preCodeString = preCodeString.concat( ";");

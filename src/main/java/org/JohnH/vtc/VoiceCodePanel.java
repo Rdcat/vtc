@@ -37,7 +37,7 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
     "start curly → { \n" + 
     "end curly → } \n" + 
     "text → \" \n" + 
-    "and → && \n" + 
+    "and sign → && \n" + 
     "or → || \n" +
     "MUST SAY CODE FOR THE TEXT TO BE PUT TO CODE");
     JLabel recordLabel = new JLabel("Press to record");
