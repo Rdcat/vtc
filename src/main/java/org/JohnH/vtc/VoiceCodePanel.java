@@ -26,7 +26,19 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
     public boolean stopButtonPressed = false;
     Transcriber transcriber = new Transcriber();
     
-
+    JTextArea  UserJGuide = new JTextArea("Voice to code Commands:\n" + 
+    "dot → . \n" +
+    "if → if( \n" + 
+    "while → while( \n" +
+    "print → println \n" + 
+    "equals → = \n" + 
+    "end → ) \n" + 
+    "start → ( \n" + 
+    "start curly → { \n" + 
+    "end curly → } \n" + 
+    "text → \" \n" + 
+    "and → && \n" + 
+    "or → ||");
     JLabel recordLabel = new JLabel("Press to record");
     JButton recordButton = new JButton("Record");
     JButton stopRecorButton = new JButton("Stop Recording");
@@ -83,13 +95,20 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         
         codeArScrollPane.setBounds(620, 30, 200, 500);
-
+        
+        UserJGuide.setBounds(20, 20, 200, 400);
+        UserJGuide.setLineWrap(true);
+        UserJGuide.setWrapStyleWord(true);
+        UserJGuide.setEditable(false);
+        UserJGuide.setBackground(this.getBackground());
+        
         codeArea.setLineWrap(true);
         codeArea.setWrapStyleWord(true);
 
         add(codeArScrollPane);
         add(clearButton);
         add(recordLabel);
+        add(UserJGuide);
         add(recordButton);
         add(stopRecorButton);
 
@@ -118,7 +137,7 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
             String extracString = tString;
             System.out.println(extracString);
             String newString = ExtractionString(tString);
-            codeArea.append(newString + "\n");
+            codeArea.append(newString + "\n    ");
         });    
     }
 

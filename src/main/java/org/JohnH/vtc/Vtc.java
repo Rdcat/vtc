@@ -21,6 +21,7 @@ public class Vtc {
 
         VoiceCodePanel vCodePanel = new VoiceCodePanel();
         drawFrame.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent event){
                 System.out.println("system has been stopped");
                 vCodePanel.transcriber.StopRecording();

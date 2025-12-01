@@ -157,6 +157,8 @@ public class Transcriber{
         preCodeString = preCodeString.replace("end curly", "}");
         preCodeString = preCodeString.replace("start", "(");
         preCodeString = preCodeString.replace(" text ", "\" ");
+        preCodeString = preCodeString.replace("and", "&&");
+        preCodeString = preCodeString.replace("or", "||");
 
 
         preCodeString = preCodeString.concat( ";");
