@@ -96,7 +96,7 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
         recordButton.addMouseListener(mInteract);
         stopRecorButton.addMouseListener(mInteract);
         clearButton.addMouseListener(cMouse);
-
+        
 
     }
 
@@ -173,7 +173,7 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
     private class clearMouse extends MouseAdapter{
         @Override
         public void  mouseClicked(MouseEvent event){
-            codeArea.setText("Code Area"); 
+            codeArea.setText(""); 
         }
     }
     private class RecordWorker extends SwingWorker<Void, String>{
@@ -192,6 +192,7 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
         
         
     }
+    
 
     public String ExtractionString(String subject){
 
@@ -204,6 +205,8 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
             return subject.substring(start, end);
             }
         }
+
+        subject = "";
         return  subject;
 
     }
