@@ -148,6 +148,7 @@ public class Transcriber{
         //Coding Converter logic
         preCodeString = preCodeString.replace("the", "");
         preCodeString = preCodeString.replace(" dot ", ".");
+        preCodeString = preCodeString.replace(" that ", ".");
         preCodeString = preCodeString.replace("if", "if( ");
         preCodeString = preCodeString.replace("print", "println");
         preCodeString = preCodeString.replace("while", "while( ");
