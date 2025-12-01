@@ -144,8 +144,27 @@ public class Transcriber{
     }
     
     //taking the writing and outputing it as code
-    public void TextToCode(){
+    public String TextToCode(String preCodeString){
         //Coding Converter logic
+        preCodeString = preCodeString.replace("the", "");
+        preCodeString = preCodeString.replace(" dot ", ".");
+        preCodeString = preCodeString.replace("if", "if( ");
+        preCodeString = preCodeString.replace("print", "println");
+        preCodeString = preCodeString.replace("while", "while( ");
+        preCodeString = preCodeString.replace("equals", "=");
+        preCodeString = preCodeString.replace("end", ")");
+        preCodeString = preCodeString.replace("start curly", "{");
+        preCodeString = preCodeString.replace("end curly", "}");
+        preCodeString = preCodeString.replace("start", "(");
+        preCodeString = preCodeString.replace(" text ", "\" ");
+
+
+        preCodeString = preCodeString.concat( ";");
+
+        return preCodeString;
+
+
+
     }
     
     

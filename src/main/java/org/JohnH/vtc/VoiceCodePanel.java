@@ -143,6 +143,12 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
                 recordWorker.cancel(true);
                 transcriber.StopRecording();
 
+                try {
+                    wait(200);
+                } catch (InterruptedException ex) {
+                }
+                recordedJTextArea.setText("recording stopped!");
+
 
             }
             else{
@@ -196,13 +202,17 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
 
     public String ExtractionString(String subject){
 
-        if(subject.contains("\"text\"") && subject.contains("\"")){
+        if(subject.contains("\"text\"") && subject.contains("\"") && subject.contains("code")){
 
+            subject = subject.replace("code", "");
             int start = (subject.indexOf("\"text\"") + 7);
             start = subject.indexOf("\"", start) + 1;
             int end = subject.indexOf("\"", start);
             if(start > 0 && end > start){
-            return subject.substring(start, end);
+            String preCodedString = subject.substring(start, end);
+            String postCodedString = transcriber.TextToCode(preCodedString);
+            return postCodedString;
+
             }
         }
 
