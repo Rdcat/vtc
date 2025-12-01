@@ -149,6 +149,7 @@ public class Transcriber{
         preCodeString = preCodeString.replace("the", "");
         preCodeString = preCodeString.replace(" dot ", ".");
         preCodeString = preCodeString.replace(" that ", ".");
+        preCodeString = preCodeString.replace(" thought ", ".");
         preCodeString = preCodeString.replace("if", "if( ");
         preCodeString = preCodeString.replace("print", "println");
         preCodeString = preCodeString.replace("while", "while( ");
