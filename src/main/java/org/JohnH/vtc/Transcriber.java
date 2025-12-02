@@ -13,58 +13,58 @@ import org.vosk.LogLevel;
 import org.vosk.Model;
 import org.vosk.Recognizer;
 
-public class Transcriber{
+public class Transcriber {
+
     public boolean isRecording = false;
 
     private final int sampleRate = 16000;
     private final int bufferSize = 4096;
-     
 
     //listener
     private TranscriberListener tListener;
 
-
-
     //setting the listener
-    public void setTranscriberListener(TranscriberListener lTranscriber){
+    public void setTranscriberListener(TranscriberListener lTranscriber) {
         this.tListener = lTranscriber;
     }
-    private void notifyPartialResult(String text){
-        if(tListener != null){
+
+    private void notifyPartialResult(String text) {
+        if (tListener != null) {
             tListener.onPartialResult(text);
         }
     }
-    private void notifyFinalResult(String text){
-        if(tListener != null){
+
+    private void notifyFinalResult(String text) {
+        if (tListener != null) {
             tListener.onFinalResult(text);
             System.out.println(text);
 
-            
         }
     }
-    private void notifyError(String text){
-            tListener.onError(text);
-        
+
+    private void notifyError(String text) {
+        tListener.onError(text);
+
     }
 
     //Start Recording Function
-    public void StartRecording()throws IOException, UnsupportedAudioFileException{
+    public void StartRecording() throws IOException, UnsupportedAudioFileException {
         //start countdown
 
         //after countdown give feedback showing ready to listen
         isRecording = true;
         RecordingLogic();
-        
-        
-    
+
     }
-    private void RecordingLogic() throws IOException, UnsupportedAudioFileException{
+
+    private void RecordingLogic() throws IOException, UnsupportedAudioFileException {
         //start recording logic
-        System.out.println("Start Recording");try {
+        System.out.println("Start Recording");
+        try {
             //the library shows logs for devugging
             LibVosk.setLogLevel(LogLevel.DEBUG);
             //finds the model at this file path
-            try(Model model = new Model("src/resources/models/vosk-model")) {
+            try (Model model = new Model("src/resources/models/vosk-model")) {
                 //recognizer is an object that will "recognize" the raw audio
                 Recognizer recognizer = new Recognizer(model, sampleRate);
 
@@ -73,78 +73,70 @@ public class Transcriber{
 
                 DataLine.Info dataLine = new DataLine.Info(TargetDataLine.class, audioFormat);
 
-                try(TargetDataLine microphone = (TargetDataLine) AudioSystem.getLine(dataLine)) {
+                try (TargetDataLine microphone = (TargetDataLine) AudioSystem.getLine(dataLine)) {
                     microphone.open(audioFormat);
                     microphone.start();
 
                     byte[] buffer = new byte[bufferSize];
                     int bytesRead = 0;
 
-                    
-                    while(isRecording = true){
-                    
-                    bytesRead = microphone.read(buffer, 0, bufferSize);
+                    while (isRecording = true) {
 
-                    
-                    if(recognizer.acceptWaveForm(buffer, bytesRead)){
-                        //System.out.println("not the true final");
-                        String result = recognizer.getResult();
+                        bytesRead = microphone.read(buffer, 0, bufferSize);
 
-                        //System.out.println("Final: " + recognizer.getResult());
-                        notifyFinalResult(result);
-                        //isRecording = false;
-                        
+                        if (recognizer.acceptWaveForm(buffer, bytesRead)) {
+                            //System.out.println("not the true final");
+                            String result = recognizer.getResult();
 
-                    } else{
-                        //System.out.println("Partial: " + recognizer.getPartialResult());
-                        notifyPartialResult(recognizer.getPartialResult());
-                        
+                            //System.out.println("Final: " + recognizer.getResult());
+                            notifyFinalResult(result);
+                            //isRecording = false;
+
+                        } else {
+                            //System.out.println("Partial: " + recognizer.getPartialResult());
+                            notifyPartialResult(recognizer.getPartialResult());
+
+                        }
+
+                        System.out.println("is recording = " + isRecording);
+
+                        Thread.sleep(100);
+
                     }
-                    
-                    System.out.println("is recording = " + isRecording);
-                
-                    
-
-                
-                    Thread.sleep(100);
-
-
-                }
-                    microphone.stop();  
+                    microphone.stop();
                     //System.out.println("Real Final Result: " + recognizer.getFinalResult()); 
                     notifyFinalResult(recognizer.getFinalResult());
-                } 
-                catch (Exception e) {
+                } catch (Exception e) {
                     notifyError("transcription error " + e.getMessage());
                 }
 
-                
             } catch (Exception e) {
                 notifyError("initialization error " + e.getMessage());
 
             }
-            
+
         } catch (Exception e) {
         }
 
     }
-    public class RecordingThread extends Thread{
-        public void run(){
-            
+
+    public class RecordingThread extends Thread {
+
+        public void run() {
+
         }
     }
 
     //Stop recording Function
-    public void StopRecording(){
+    public void StopRecording() {
         //stop recording logic
         //System.out.println("Stop Recording");
         isRecording = false;
 
-
     }
-    
+
     //taking the writing and outputing it as code
-    public String TextToCode(String preCodeString){
+    public String TextToCode(String preCodeString) {
         //Coding Converter logic
         preCodeString = preCodeString.replace("the", "");
         preCodeString = preCodeString.replace(" dot ", ".");
@@ -168,14 +160,10 @@ public class Transcriber{
 
         preCodeString = preCodeString.replace(" at ", "@");
 
-
-        preCodeString = preCodeString.concat( ";");
+        preCodeString = preCodeString.concat(";");
 
         return preCodeString;
 
-
-
     }
-    
-    
+
 }

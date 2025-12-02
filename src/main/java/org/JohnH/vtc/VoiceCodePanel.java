@@ -12,9 +12,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
-public class VoiceCodePanel extends JPanel  implements TranscriberListener{
 
-
+public class VoiceCodePanel extends JPanel implements TranscriberListener {
 
     int yLimit = 720;
     int xLimit = 1040;
@@ -25,48 +24,42 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
     public boolean currentlyCoding = false;
     public boolean stopButtonPressed = false;
     Transcriber transcriber = new Transcriber();
-    
-    JTextArea  UserJGuide = new JTextArea("Voice to code Commands:\n" + 
-    "dot → . \n" +
-    "if → if( \n" + 
-    "while → while( \n" +
-    "print → println \n" + 
-    "equals → = \n" + 
-    "end → ) \n" + 
-    "start → ( \n" + 
-    "start curly → { \n" + 
-    "end curly → } \n" + 
-    "text → \" \n" + 
-    "and sign → && \n" + 
-    "or → || \n" +
-    "MUST SAY CODE FOR THE TEXT TO BE PUT TO CODE");
+
+    JTextArea UserJGuide = new JTextArea("Voice to code Commands:\n"
+            + "dot → . \n"
+            + "if → if( \n"
+            + "while → while( \n"
+            + "print → println \n"
+            + "equals → = \n"
+            + "end → ) \n"
+            + "start → ( \n"
+            + "start curly → { \n"
+            + "end curly → } \n"
+            + "text → \" \n"
+            + "and sign → && \n"
+            + "or → || \n"
+            + "MUST SAY CODE FOR THE TEXT TO BE PUT TO CODE");
     JLabel recordLabel = new JLabel("Press to record");
     JButton recordButton = new JButton("Record");
     JButton stopRecorButton = new JButton("Stop Recording");
-    JButton clearButton = new  JButton("Clear The Code");
+    JButton clearButton = new JButton("Clear The Code");
     JTextArea recordedJTextArea = new JTextArea("this is the area");
     JTextArea codeArea = new JTextArea("this is the code area");
     JScrollPane codeArScrollPane;
 
-    
-    public VoiceCodePanel(){
+    public VoiceCodePanel() {
         super();
         InitializeComponents();
     }
 
-    
-    public void  InitializeComponents(){
+    public void InitializeComponents() {
         transcriber.setTranscriberListener(this);
         //System.out.println("gets to Gpraphics");
 
-
         // TODO: implement panel functionality
-
         //mouse click listener
         MouseInteract mInteract = new MouseInteract();
         clearMouse cMouse = new clearMouse();
-
-        
 
         // Set the properties of the panel and its objects in it
         setLayout(null);
@@ -75,12 +68,10 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
         stopRecorButton.setBounds(200, 420, 100, 50);
         stopRecorButton.setOpaque(!currentlyCoding);
         stopRecorButton.setBackground(Color.white);
-        
+
         recordedJTextArea.setBounds(100, 500, 500, 150);
         recordedJTextArea.setLineWrap(true);
         add(recordedJTextArea);
-
-        
 
         clearButton.setBounds(840, 420, 100, 50);
 
@@ -91,18 +82,18 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
 
         recordLabel.setBounds(310, 375, 200, 20);
 
-        codeArScrollPane = new JScrollPane(codeArea, 
+        codeArScrollPane = new JScrollPane(codeArea,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
                 JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        
+
         codeArScrollPane.setBounds(620, 30, 200, 500);
-        
+
         UserJGuide.setBounds(20, 20, 200, 400);
         UserJGuide.setLineWrap(true);
         UserJGuide.setWrapStyleWord(true);
         UserJGuide.setEditable(false);
         UserJGuide.setBackground(this.getBackground());
-        
+
         codeArea.setLineWrap(true);
         codeArea.setWrapStyleWord(true);
 
@@ -116,7 +107,6 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
         recordButton.addMouseListener(mInteract);
         stopRecorButton.addMouseListener(mInteract);
         clearButton.addMouseListener(cMouse);
-        
 
     }
 
@@ -126,8 +116,6 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
         SwingUtilities.invokeLater(() -> {
             recordedJTextArea.setText(tString);
         });
-
-
 
     }
 
@@ -139,21 +127,22 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
             System.out.println(extracString);
             String newString = ExtractionString(tString);
             codeArea.append(newString + "\n    ");
-        });    
+        });
     }
 
     @Override
     public void onError(String errorrString) {
         SwingUtilities.invokeLater(() -> {
             recordedJTextArea.setText(errorrString);
-        });    }
+        });
+    }
 
-    private class MouseInteract extends MouseAdapter{
+    private class MouseInteract extends MouseAdapter {
 
         @Override
-        public void mouseClicked(MouseEvent event){
-            
-            if(currentlyCoding == true){
+        public void mouseClicked(MouseEvent event) {
+
+            if (currentlyCoding == true) {
                 //logic for when the recording is stopped
 
                 recordButton.setText("Record");
@@ -169,42 +158,37 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
                 }
                 recordedJTextArea.setText("recording stopped!");
 
-
-            }
-            else{
+            } else {
                 //logic for when the recording function is started
                 recordButton.setText("!!Recording!!");
                 recordButton.setBackground(Color.red);
                 currentlyCoding = !currentlyCoding;
                 recordButton.setOpaque(currentlyCoding);
-                try{
+                try {
 
                     recordWorker = new RecordWorker();
 
                     recordWorker.execute();
-                
-                }
-                catch(Exception exception){
+
+                } catch (Exception exception) {
 
                 }
-
-
-                
 
             }
 
         }
 
     }
-    private class clearMouse extends MouseAdapter{
+
+    private class clearMouse extends MouseAdapter {
+
         @Override
-        public void  mouseClicked(MouseEvent event){
-            codeArea.setText(""); 
+        public void mouseClicked(MouseEvent event) {
+            codeArea.setText("");
         }
     }
-    private class RecordWorker extends SwingWorker<Void, String>{
-        
-            
+
+    private class RecordWorker extends SwingWorker<Void, String> {
 
         @Override
         protected Void doInBackground() throws Exception {
@@ -212,33 +196,30 @@ public class VoiceCodePanel extends JPanel  implements TranscriberListener{
             transcriber.StartRecording();
 
             return null;
-            
+
         }
 
-        
-        
     }
-    
 
-    public String ExtractionString(String subject){
+    public String ExtractionString(String subject) {
 
-        if(subject.contains("\"text\"") && subject.contains("\"") && subject.contains("code")){
+        if (subject.contains("\"text\"") && subject.contains("\"") && subject.contains("code")) {
 
             subject = subject.replace("code", "");
             int start = (subject.indexOf("\"text\"") + 7);
             start = subject.indexOf("\"", start) + 1;
             int end = subject.indexOf("\"", start);
-            if(start > 0 && end > start){
-            String preCodedString = subject.substring(start, end);
-            String postCodedString = transcriber.TextToCode(preCodedString);
-            return postCodedString;
+            if (start > 0 && end > start) {
+                String preCodedString = subject.substring(start, end);
+                String postCodedString = transcriber.TextToCode(preCodedString);
+                return postCodedString;
 
             }
         }
 
         subject = "";
-        return  subject;
+        return subject;
 
     }
-    
+
 }
