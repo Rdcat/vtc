@@ -59,7 +59,7 @@ public class Transcriber {
 
     private void RecordingLogic() throws IOException, UnsupportedAudioFileException {
         //start recording logic
-        System.out.println("Start Recording");
+        //System.out.println("Start Recording");
         try {
             //the library shows logs for devugging
             LibVosk.setLogLevel(LogLevel.DEBUG);
@@ -80,7 +80,7 @@ public class Transcriber {
                     byte[] buffer = new byte[bufferSize];
                     int bytesRead = 0;
 
-                    while (isRecording = true) {
+                    while (isRecording == true) {
 
                         bytesRead = microphone.read(buffer, 0, bufferSize);
 
@@ -139,28 +139,38 @@ public class Transcriber {
     public String TextToCode(String preCodeString) {
         //Coding Converter logic
         preCodeString = preCodeString.replace("the", "");
+        
         preCodeString = preCodeString.replace(" dot ", ".");
         preCodeString = preCodeString.replace(" that ", ".");
         preCodeString = preCodeString.replace(" docked ", ".");
-
         preCodeString = preCodeString.replace(" thought ", ".");
+
         preCodeString = preCodeString.replace(" if ", "if( ");
+
         preCodeString = preCodeString.replace(" print ", "println");
+
         preCodeString = preCodeString.replace("while", "while( ");
+
         preCodeString = preCodeString.replace("equals", "=");
+
         preCodeString = preCodeString.replace(" end", ")");
         preCodeString = preCodeString.replace(" and", ")");
+        preCodeString = preCodeString.replace("start", "(");
 
         preCodeString = preCodeString.replace("start curly", "{");
         preCodeString = preCodeString.replace("end curly", "}");
-        preCodeString = preCodeString.replace("start", "(");
+
         preCodeString = preCodeString.replace(" text ", "\" ");
+
         preCodeString = preCodeString.replace(" and sign", "&&");
+
         preCodeString = preCodeString.replace(" or ", "||");
 
         preCodeString = preCodeString.replace(" at ", "@");
-
+        
+        if(preCodeString.contains(" if(")){
         preCodeString = preCodeString.concat(";");
+        }
 
         return preCodeString;
 
